@@ -1,0 +1,19 @@
+{
+    "name": "kaapiii/concrete5-doctrine-dql-extensions",
+    "description": "The concrete5 package adds additional MySQL functions (DoctrineExtensions) to the Doctrine2 query language and the QueryBuilder.",
+    "license": "MIT",
+    "type": "concrete5-package",
+    "authors": [
+        {
+            "name": "Markus Liechti",
+            "email": "markus@liechti.io"
+        }
+    ],
+    "config": {
+        "vendor-dir":"doctrine_dql_extensions/vendor"
+    },
+    "require": {
+        "composer/installers": "~1.0",
+        "beberlei/DoctrineExtensions": "v1.0.15"
+    }
+}
