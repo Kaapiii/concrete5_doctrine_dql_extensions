@@ -2,7 +2,6 @@
 
 namespace Concrete\Package\DoctrineDqlExtensions;
 
-use Concrete\Core\Support\Facade\Events;
 use Doctrine\Common\EventManager;
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Yaml\Exception\ParseException;
