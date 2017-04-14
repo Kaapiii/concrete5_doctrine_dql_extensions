@@ -1,6 +1,6 @@
 <?php
 
-namespace Concrete\Package\DoctrineDqlExtensions\Controller\SinglePage\Dashboard\System;
+namespace Concrete\Package\Concrete5DoctrineDqlExtensions\Controller\SinglePage\Dashboard\System;
 
 use Concrete\Core\Package\Package;
 
@@ -25,7 +25,7 @@ class DoctrineDqlExtensions extends \Concrete\Core\Page\Controller\DashboardPage
      */
     public function __construct(\Concrete\Core\Page\Page $c) {
         parent::__construct($c);
-        $this->package = Package::getByHandle('doctrine_query_extensions');
+        $this->package = Package::getByHandle('concrete5_doctrine_query_extensions');
     }
     
     /**

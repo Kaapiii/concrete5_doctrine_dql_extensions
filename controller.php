@@ -1,6 +1,6 @@
 <?php
 
-namespace Concrete\Package\DoctrineDqlExtensions;
+namespace Concrete\Package\Concrete5DoctrineDqlExtensions;
 
 use Doctrine\Common\EventManager;
 use Symfony\Component\Yaml\Yaml;
@@ -14,7 +14,7 @@ use Symfony\Component\Yaml\Exception\ParseException;
  */
 class Controller extends \Concrete\Core\Package\Package
 {
-    protected $pkgHandle          = 'doctrine_dql_extensions';
+    protected $pkgHandle          = 'concrete5_doctrine_query_extensions';
     protected $appVersionRequired = '8.0.0';
     protected $pkgVersion         = '0.0.1';
 
