@@ -14,9 +14,9 @@ use Symfony\Component\Yaml\Exception\ParseException;
  */
 class Controller extends \Concrete\Core\Package\Package
 {
-    protected $pkgHandle          = 'concrete5_doctrine_query_extensions';
+    protected $pkgHandle          = 'concrete5_doctrine_dql_extensions';
     protected $appVersionRequired = '8.0.0';
-    protected $pkgVersion         = '0.0.1';
+    protected $pkgVersion         = '0.2.0';
 
     public function getPackageDescription()
     {
@@ -37,7 +37,9 @@ class Controller extends \Concrete\Core\Package\Package
     public function on_start()
     {
         // register the autoloading
-        require $this->getPackagePath() . '/vendor/autoload.php';
+        if(file_exists($this->getPackagePath() . '/vendor/autoload.php')){
+            require $this->getPackagePath() . '/vendor/autoload.php';
+        }
         
         $em = $this->app->make('Doctrine\ORM\EntityManager');
         $config = $em->getConfiguration();
