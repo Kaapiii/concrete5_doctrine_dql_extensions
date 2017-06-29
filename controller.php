@@ -100,7 +100,8 @@ class Controller extends \Concrete\Core\Package\Package
      * Get path to MySQL yaml config
      * 
      * Search eather in {package-root}/vendor or in {root}/concrete5/vendor
-     * 
+     *
+     * @throws \Exception
      * @return string
      */
     protected function getMysqlConfig()
@@ -122,9 +123,8 @@ class Controller extends \Concrete\Core\Package\Package
         } elseif (file_exists($pathVendor)) {
             $path = $pathVendor;
         } else {
-            // @todo handle error
+            throw new \Exception('Yaml config file for DonctrineExtensions was not found. Searched unter: '. $pathPackage .' - and -' . $pathVendor);
         }
-
         return $path;
     }
 
