@@ -1,3 +1,5 @@
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/86a71f44-22ed-46e6-9fc7-d7d3ca79815e/mini.png)](https://insight.sensiolabs.com/projects/86a71f44-22ed-46e6-9fc7-d7d3ca79815e)
+
 Concrete5 package for v8 - Adds beberlei/DoctrineExtensions to concrete5 (work in progress)
 ======
 
@@ -7,7 +9,7 @@ Installation
 ### Install the package manually
 
 1. Download the zip and copy the folder **concrete5_doctrine_dql_extensions-xxx** to {root}/packages
-2. Rename the folder to **concrete5_doctrine_dql_extensions-xxx**
+2. Rename the folder to **concrete5_doctrine_dql_extensions**
 2. Use [Composer](https://getcomposer.org/) to install the third party dependencies
 
         composer install
