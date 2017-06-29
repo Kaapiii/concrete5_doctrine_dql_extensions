@@ -91,7 +91,7 @@ class Controller extends \Concrete\Core\Package\Package
         try {
             $config = Yaml::parse(file_get_contents($this->getMysqlConfig()));
         } catch (ParseException $e) {
-            //printf("Unable to parse the YAML string: %s", $e->getMessage());
+            throw new ParseException('The yaml configuration for berberlei/DoctrineExtensions couldn\'t be parsed. '. $e);
         }
         return $config;
     }
