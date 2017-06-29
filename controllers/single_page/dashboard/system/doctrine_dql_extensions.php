@@ -13,19 +13,12 @@ use Concrete\Core\Package\Package;
 class DoctrineDqlExtensions extends \Concrete\Core\Page\Controller\DashboardPageController{
     
     /**
-     * @var Concrete\Core\Package\Package 
-     */
-    private $package;
-    
-    
-    /**
      * Constructor
      * 
      * @param \Concrete\Core\Page\Page $c
      */
     public function __construct(\Concrete\Core\Page\Page $c) {
         parent::__construct($c);
-        $this->package = Package::getByHandle('concrete5_doctrine_query_extensions');
     }
     
     /**
