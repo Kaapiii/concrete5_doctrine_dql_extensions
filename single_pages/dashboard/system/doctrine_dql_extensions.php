@@ -1,16 +1,28 @@
 <?php defined('C5_EXECUTE') or die("Access Denied."); ?>
 <div class="row">
     <div class="col-md-12">
-        <p><?= t('The list below shows all custom added MySQL functions. All the functions in the lists can be used in DQL queries and with the QueryBuilder.'); ?></p>
+        <p><?= t('The list below shows all added MySQL functions, which can be used ether with DQL queries or with the Doctrine QueryBuilder.'); ?></p>
+        <p><?= t('Examples on how to use the functions in DQL queries can be found here.'); ?> <a href="https://github.com/beberlei/DoctrineExtensions/tree/master/tests/Query/Mysql" target="_blank"><?= t('Examples'); ?></a>
+        <br>
         <br>
     </div>
 </div>
+<style>
+    .xtwoColumns{
+        -webkit-column-gap: 20px;
+           -moz-column-gap: 20px;
+                column-gap: 20px;
+        -webkit-column-count: 2;
+           -moz-column-count: 2;
+                column-count: 2;
+    }
+</style>
 <div class="row">
     <?php
     if (count($customStringFunctions)):
         foreach ($customStringFunctions as $dqlFuctionName => $customStringFunction):
             if (is_array($customStringFunction) && count($customStringFunction)):?>
-            <div class="col-md-4 ccm-dashboard-section-menu">
+            <div class="col-md-12 ccm-dashboard-section-menu">
                 <?php
                     if (strpos($dqlFuctionName, 'Datetime') !== false) {
                         $title = t('MySQL date and time functions');
@@ -28,11 +40,13 @@
                 ?>
                 <h2><?= $title; ?></h2>
                 <p><a target="_blank" href="<?= $url; ?>"><?= $linkName ;?></a></p>
-                <ul>
-                    <?php foreach ($customStringFunction as $functionName => $className): ?>
-                        <li><?= strtoupper($functionName); ?></li>
-                <?php endforeach; ?>
-                </ul>
+                <div class="xtwoColumns">
+                    <ul>
+                        <?php foreach ($customStringFunction as $functionName => $className): ?>
+                            <li><?= strtoupper($functionName); ?></li>
+                    <?php endforeach; ?>
+                    </ul>
+                </div>
             </div>
             <?php
             endif;
