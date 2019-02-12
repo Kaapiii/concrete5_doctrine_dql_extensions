@@ -17,7 +17,7 @@ class Controller extends \Concrete\Core\Package\Package
 {
     protected $pkgHandle          = 'concrete5_doctrine_dql_extensions';
     protected $appVersionRequired = '8.0.0';
-    protected $pkgVersion         = '0.2.0';
+    protected $pkgVersion         = '1.0.0';
 
     public function getPackageDescription()
     {
@@ -99,7 +99,7 @@ class Controller extends \Concrete\Core\Package\Package
         try {
             $config = Yaml::parse(file_get_contents($this->getMysqlConfig()));
         } catch (ParseException $e) {
-            //printf("Unable to parse the YAML string: %s", $e->getMessage());
+            Log::addAlert('Unable to parse the MySQL YAML config file: '. $e);
         }
         return $config;
     }
