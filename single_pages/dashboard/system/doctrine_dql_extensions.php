@@ -19,8 +19,8 @@
 </style>
 <div class="row">
     <?php
-    if (count($customStringFunctions)):
-        foreach ($customStringFunctions as $dqlFuctionName => $customStringFunction):
+    if (count($customFunctions)):
+        foreach ($customFunctions as $dqlFuctionName => $customStringFunction):
             if (is_array($customStringFunction) && count($customStringFunction)):?>
             <div class="col-md-12 ccm-dashboard-section-menu">
                 <?php
