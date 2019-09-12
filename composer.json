@@ -14,6 +14,6 @@
     },
     "require": {
         "composer/installers": "~1.0",
-        "beberlei/DoctrineExtensions": "v1.0.15"
+        "beberlei/DoctrineExtensions": "^1.2.3"
     }
 }
