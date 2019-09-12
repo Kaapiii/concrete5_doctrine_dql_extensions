@@ -115,18 +115,26 @@ class Controller extends \Concrete\Core\Package\Package
         // package contains a 'vendor' directory
         $localVendorPath = $this->getPackagePath(). DIRECTORY_SEPARATOR . DIRNAME_VENDOR
             . DIRECTORY_SEPARATOR . 'beberlei' . DIRECTORY_SEPARATOR
-            . 'DoctrineExtensions' . DIRECTORY_SEPARATOR . 'config'
+            . 'doctrineextensions' . DIRECTORY_SEPARATOR . 'config'
             . DIRECTORY_SEPARATOR . 'mysql.yml';
 
         $globalVendorPath = DIR_BASE_CORE . DIRECTORY_SEPARATOR . DIRNAME_VENDOR
             . DIRECTORY_SEPARATOR . 'beberlei' . DIRECTORY_SEPARATOR
-            . 'DoctrineExtensions' . DIRECTORY_SEPARATOR . 'config'
+            . 'doctrineextensions' . DIRECTORY_SEPARATOR . 'config'
+            . DIRECTORY_SEPARATOR . 'mysql.yml';
+
+        # needed if concrete5 was created with "composer create-project -n concrete5/composer ."
+        $globalVendorPathWithComposer = dirname(DIR_BASE) . DIRECTORY_SEPARATOR . DIRNAME_VENDOR
+            . DIRECTORY_SEPARATOR . 'beberlei' . DIRECTORY_SEPARATOR
+            . 'doctrineextensions' . DIRECTORY_SEPARATOR . 'config'
             . DIRECTORY_SEPARATOR . 'mysql.yml';
 
         if(file_exists($localVendorPath)){
             $path = $localVendorPath;
-        }else{
+        } else if (file_exists($globalVendorPath)){
             $path = $globalVendorPath;
+        } else {
+            $path = $globalVendorPathWithComposer;
         }
 
         return $path;
