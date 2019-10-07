@@ -17,7 +17,7 @@ class Controller extends \Concrete\Core\Package\Package
 {
     protected $pkgHandle          = 'concrete5_doctrine_dql_extensions';
     protected $appVersionRequired = '8.0.0';
-    protected $pkgVersion         = '1.1.0';
+    protected $pkgVersion         = '1.1.1';
 
     public function getPackageDescription()
     {
