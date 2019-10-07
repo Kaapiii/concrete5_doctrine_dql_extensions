@@ -25,7 +25,7 @@ If you decide to install the package manually, you should install all packages w
 1. Add the following line to the 'require' section of the concrete5 composer.json file
 
 
-        "kaapiii/concrete5_doctrine_dql_extensions": "^0.2"
+        "kaapiii/concrete5_doctrine_dql_extensions": "^1.1"
 
 
 2. Run the following command from the installation {root} folder
