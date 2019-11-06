@@ -3,7 +3,8 @@
 namespace Concrete\Package\Concrete5DoctrineDqlExtensions;
 
 use Concrete\Core\Support\Facade\Log;
-use Doctrine\Common\EventManager;
+use Concrete\Core\Package\Package;
+use Concrete\Core\Page\Single as PageSingle;
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Yaml\Exception\ParseException;
 
@@ -13,7 +14,7 @@ use Symfony\Component\Yaml\Exception\ParseException;
  * @author Markus Liechti <markus@liechti.io>
  * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
-class Controller extends \Concrete\Core\Package\Package
+class Controller extends Package
 {
     protected $pkgHandle          = 'concrete5_doctrine_dql_extensions';
     protected $appVersionRequired = '8.0.0';
@@ -32,7 +33,7 @@ class Controller extends \Concrete\Core\Package\Package
     public function install()
     {
         $pkg = parent::install();
-        \Concrete\Core\Page\Single::add('/dashboard/system/doctrine_dql_extensions',$pkg);
+        PageSingle::add('/dashboard/system/doctrine_dql_extensions',$pkg);
     }
 
     public function on_start()
@@ -51,7 +52,6 @@ class Controller extends \Concrete\Core\Package\Package
         }catch(\Doctrine\ORM\ORMException $e){
             Log::addAlert('While adding Doctrine DQL extensions to the EntityManager configuration something went wrong: '. $e);
         }
-
     }
 
 
