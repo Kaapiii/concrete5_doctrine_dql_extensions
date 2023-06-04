@@ -2,81 +2,77 @@
 
 namespace Concrete\Package\Concrete5DoctrineDqlExtensions\Controller\SinglePage\Dashboard\System;
 
-use Concrete\Core\Package\Package;
+use Concrete\Core\Page\Controller\DashboardPageController;
+use Doctrine\ORM\Configuration;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Log;
+use ReflectionClass;
+use ReflectionException;
 
 /**
- * Behavioral settings controller
+ * Behavioral settings controller.
  *
  * @author Markus Liechti <markus@liechti.io>
  * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
-class DoctrineDqlExtensions extends \Concrete\Core\Page\Controller\DashboardPageController{
-
-
-    const DQL_STING_FUNCTION_KEYS = array(
+final class DoctrineDqlExtensions extends DashboardPageController
+{
+    public const DQL_STING_FUNCTION_KEYS = [
         'customDatetimeFunctions',
         'customNumericFunctions',
-        'customStringFunctions');
+        'customStringFunctions',
+    ];
 
     /**
-     * Constructor
-     * 
-     * @param \Concrete\Core\Page\Page $c
+     * Show category Tree.
      */
-    public function __construct(\Concrete\Core\Page\Page $c) {
-        parent::__construct($c);
-    }
-    
-    /**
-     * Show cateogry Tree
-     */
-    public function view(){
-
-        $em = $this->app->make('Doctrine\ORM\EntityManager');
+    public function view(): void
+    {
+        /** @var EntityManagerInterface $em */
+        $em = $this->app->make(EntityManager::class);
         $config = $em->getConfiguration();
-
         $customFunctions = $this->filterCustomDQLFunctions($config);
-
         $this->set('customFunctions', $customFunctions);
-
     }
-    
+
     /**
-     * With this function a protected or private 
-     * property of a object can be accessed
-     * 
+     * With this function a protected or private
+     * property of a object can be accessed.
+     *
      * @param object $obj
-     * @param string $prop
+     *
+     * @throws ReflectionException
+     *
      * @return type
-     * @throws \ReflectionException
      */
-    protected function accessProtected($obj, $prop) {
-        $reflection = new \ReflectionClass($obj);
+    protected function accessProtected($obj, string $prop): mixed
+    {
+        $reflection = new ReflectionClass($obj);
         $property = $reflection->getProperty($prop);
         $property->setAccessible(true);
+
         return $property->getValue($obj);
     }
 
     /**
-     * Filter protected ORM config values so only the custom functions are kept
-     *
-     * @param $config \Doctrine\ORM\Configuration
-     * @return array
+     * Filter protected ORM config values so only the custom functions are kept.
      */
-    protected function filterCustomDQLFunctions($config){
+    protected function filterCustomDQLFunctions(Configuration $config): array
+    {
         // Access the private property for \Doctrine\ORM\Config
-
-        try{
+        try {
             $customFunctions = $this->accessProtected($config, '_attributes');
-        }catch(\ReflectionException $e){
-            \Log::addAlert('The registered DQL functions could not be retrieved. ' . $e);
+        } catch (ReflectionException $e) {
+            Log::addAlert('The registered DQL functions could not be retrieved. ' . $e);
         }
 
         $allowedKeys = self::DQL_STING_FUNCTION_KEYS;
-        $filteredFunctions = array_filter($customFunctions, function($key) use ($allowedKeys){
-            return in_array($key, $allowedKeys);
-        }, ARRAY_FILTER_USE_KEY);
 
-        return $filteredFunctions;
+        return array_filter(
+            $customFunctions,
+            static fn ($key) => in_array($key, $allowedKeys),
+            ARRAY_FILTER_USE_KEY,
+        );
     }
 }
