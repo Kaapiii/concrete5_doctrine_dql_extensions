@@ -2,27 +2,33 @@
 
 namespace Concrete\Package\Concrete5DoctrineDqlExtensions;
 
-use Concrete\Core\Support\Facade\Log;
 use Concrete\Core\Package\Package;
 use Concrete\Core\Page\Single as PageSingle;
-use Symfony\Component\Yaml\Yaml;
+use Concrete\Core\Support\Facade\Log;
+use Doctrine\ORM\Configuration;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Yaml\Exception\ParseException;
+use Symfony\Component\Yaml\Yaml;
 
 /**
- * Package controller
+ * Package controller.
  *
  * @author Markus Liechti <markus@liechti.io>
  * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
-class Controller extends Package
+final class controller extends Package
 {
-    const BEBERLEI = 'beberlei';
-    const DOCTRINEEXTENSIONS = 'doctrineextensions';
-    const CONFIG_FILE_NAME = 'mysql.yml';
+    public const BEBERLEI = 'beberlei';
 
-    protected $pkgHandle          = 'concrete5_doctrine_dql_extensions';
+    public const DOCTRINEEXTENSIONS = 'doctrineextensions';
+
+    public const CONFIG_FILE_NAME = 'mysql.yml';
+
     protected $appVersionRequired = '8.0.0';
-    protected $pkgVersion         = '1.1.1';
+
+    protected $pkgHandle = 'concrete5_doctrine_dql_extensions';
+
+    protected $pkgVersion = '1.2.0';
 
     public function getPackageDescription()
     {
@@ -42,35 +48,20 @@ class Controller extends Package
 
     public function on_start()
     {
-        // register the autoloading
         if (file_exists($this->getPackagePath() . '/vendor/autoload.php')) {
             require_once $this->getPackagePath() . '/vendor/autoload.php';
         }
 
-        /** @var \Doctrine\ORM\EntityManager $em */
-        $em = $this->app->make('Doctrine\ORM\EntityManager');
-        /** @var \Doctrine\ORM\Configuration $config */
+        $em = $this->app->make(EntityManagerInterface::class);
         $config = $em->getConfiguration();
-        try {
-            $this->registerDoctrineDqlExtensions($config);
-        } catch (\Doctrine\ORM\ORMException $e) {
-            Log::addAlert(
-                'While adding Doctrine DQL extensions to the EntityManager configuration something went wrong: ' . $e
-            );
-        }
+        $this->registerDoctrineDqlExtensions($config);
     }
 
-
     /**
-     * Register Doctrine2 dql extensions
-     *
-     * @param $config \Doctrine\ORM\Configuration
-     * @return \Doctrine\ORM\Configuration mixed
-     * @throws \Doctrine\ORM\ORMException
+     * Register Doctrine DQL extensions.
      */
-    public function registerDoctrineDqlExtensions($config)
+    public function registerDoctrineDqlExtensions(Configuration $config)
     {
-
         $configSQL = $this->parseDoctrineQueryExtensionConfig();
 
         $dqlFunctions = $configSQL['doctrine']['orm']['dql'];
@@ -93,27 +84,13 @@ class Controller extends Package
                 $config->addCustomStringFunction($name, $class);
             }
         }
-        return $config;
-    }
 
-    /**
-     * Parse yaml config of MySQL doctrine dql extensions
-     *
-     * @return array
-     */
-    protected function parseDoctrineQueryExtensionConfig()
-    {
-        try {
-            $config = Yaml::parse(file_get_contents($this->getMysqlConfig()));
-        } catch (ParseException $e) {
-            Log::addAlert('Unable to parse the MySQL YAML config file: ' . $e);
-        }
         return $config;
     }
 
     /**
      * Get path to MySQL yaml config the vendor
-     * It takes into account how the package was installed
+     * It takes into account how the package was installed.
      *
      * @return string
      */
@@ -131,7 +108,7 @@ class Controller extends Package
             . self::DOCTRINEEXTENSIONS . DIRECTORY_SEPARATOR . DIRNAME_CONFIG
             . DIRECTORY_SEPARATOR . self::CONFIG_FILE_NAME;
 
-        # needed if concrete5 was created with "composer create-project -n concrete5/composer ."
+        // needed if concrete5 was created with "composer create-project -n concrete5/composer ."
         $globalVendorPathWithComposer = DIR_BASE . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . DIRNAME_VENDOR
             . DIRECTORY_SEPARATOR . self::BEBERLEI . DIRECTORY_SEPARATOR
             . self::DOCTRINEEXTENSIONS . DIRECTORY_SEPARATOR . DIRNAME_CONFIG
@@ -139,12 +116,28 @@ class Controller extends Package
 
         if (file_exists($localVendorPath)) {
             $path = $localVendorPath;
-        } else if (file_exists($globalVendorPath)) {
+        } elseif (file_exists($globalVendorPath)) {
             $path = $globalVendorPath;
         } else {
             $path = $globalVendorPathWithComposer;
         }
 
         return $path;
+    }
+
+    /**
+     * Parse yaml config of MySQL doctrine dql extensions.
+     *
+     * @return array
+     */
+    protected function parseDoctrineQueryExtensionConfig()
+    {
+        try {
+            $config = Yaml::parse(file_get_contents($this->getMysqlConfig()));
+        } catch (ParseException $e) {
+            Log::addAlert('Unable to parse the MySQL YAML config file: ' . $e);
+        }
+
+        return $config;
     }
 }
