@@ -26,12 +26,12 @@ class Controller extends Package
 
     public function getPackageDescription()
     {
-        return t('Package adds additional MySQL functions for Doctrine2 query language and QueryBuilder');
+        return t('Package adds additional MySQL functions for Doctrine Query Language and QueryBuilder');
     }
 
     public function getPackageName()
     {
-        return t('Doctrine2 dql extensions');
+        return t('Doctrine DQL Extensions');
     }
 
     public function install()
@@ -44,7 +44,7 @@ class Controller extends Package
     {
         // register the autoloading
         if (file_exists($this->getPackagePath() . '/vendor/autoload.php')) {
-            require $this->getPackagePath() . '/vendor/autoload.php';
+            require_once $this->getPackagePath() . '/vendor/autoload.php';
         }
 
         /** @var \Doctrine\ORM\EntityManager $em */
@@ -54,7 +54,9 @@ class Controller extends Package
         try {
             $this->registerDoctrineDqlExtensions($config);
         } catch (\Doctrine\ORM\ORMException $e) {
-            Log::addAlert('While adding Doctrine DQL extensions to the EntityManager configuration something went wrong: ' . $e);
+            Log::addAlert(
+                'While adding Doctrine DQL extensions to the EntityManager configuration something went wrong: ' . $e
+            );
         }
     }
 
